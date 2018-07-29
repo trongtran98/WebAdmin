@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h2>Thêm mới</h2>
+    <form id="add" method="post">
+        <div class="form-group">
+            <label for="productId">Id:</label>
+            <input type="text" class="form-control" required id="productId" name="productId">
+        </div>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input required name="productName" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+            <label for="name">Price:</label>
+            <input type="number" required name="price" class="form-control" id="price">
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea required name="description" class="form-control" rows="5" id="description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="group">Select list:</label>
+            <select name="group" required class="form-control" id="group">
+                <th:block th:each="g : ${groups}">
+                    <option th:text="${g.groupName}" th:value="${g.groupId}"></option>
+                </th:block>
+            </select>
+        </div>
+        <p class="warning" id="add-status"/>
+    </form>
+    <button onclick="add()" type="button" class="btn btn-success">Thêm mới</button>
+</div>
+
+</body>
+
+<script type="text/javascript">
+    function add() {
+        if ($('form')[0].checkValidity()) {
+            var data = $("#add").serialize();
+            $.ajax({
+                url: "/product/add",
+                type: "post",
+                dataType: "text",
+                data: data,
+                success: function (result) {
+                    $('form')[0].reset();
+                    $('#add-status').text(result);
+                },
+                error: function (e) {
+                    $('#add-status').text(e);
+                }
+            });
+        } else {
+            $('#add-status').text("Bạn cần phải nhập đầy đủ các trường")
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <link th:href="@{/css/}+'index-css.css'" rel="stylesheet">
+</head>
+<body>
+
+
+<div class="container">
+    <form action="/product/search">
+
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <div id="imaginary_container">
+                    <div class="input-group stylish-input-group">
+                        <input type="text" name="key_word" class="form-control" placeholder="Search"/>
+                        <span class="input-group-addon">
+                        <button type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <h4><a th:href="@{/add-page}">Thêm mới</a></h4>
+
+    <div class="well well-sm">
+        <strong>Category Title</strong>
+        <div class="btn-group">
+            <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+            </span>List</a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
+                class="glyphicon glyphicon-th"></span>Grid</a>
+        </div>
+    </div>
+    <div id="products" class="row list-group">
+        <th:block th:each="p : ${products}">
+            <div class="item  col-xs-4 col-lg-4">
+                <div class="thumbnail">
+                    <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt=""/>
+                    <div class="caption">
+                        <h4 th:text="${p.productName}" class="group inner list-group-item-heading"/>
+                        <p th:text="${p.description}" class="group inner list-group-item-text"/>
+                        <div class="row">
+                            <div class="col-xs-3 col-md-6">
+                                <p th:text="${#numbers.formatDecimal(p.price,0, 'COMMA', 0, 'POINT')}+' VNĐ'"
+                                   class="lead"/>
+                            </div>
+                            <div style="float: left;" class="col-xs-3 col-md-2">
+                                <a class="btn btn-success" th:href="@{/product/find/}+${p.productId}">Edit</a>
+                            </div>
+                            <div style="float: left;" class="col-xs-3 col-md-3">
+                                <a class="btn btn-success"
+                                   th:href="@{/product/removeProduct/}+${p.productId}">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+        $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
+    });
+</script>
+
+</body>
+</html>

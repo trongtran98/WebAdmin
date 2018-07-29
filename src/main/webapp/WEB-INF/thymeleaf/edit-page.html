@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>Cập nhật</h2>
+    <form id="update" method="post">
+        <div class="form-group">
+            <label for="productId">Id:</label>
+            <input th:value="${product.productId}" readonly type="text" class="form-control" id="productId" required
+                   name="productId">
+        </div>
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input th:value="${product.productName}" required name="productName" class="form-control" id="name">
+        </div>
+        <div class="form-group">
+            <label for="name">Price:</label>
+            <input th:value="${#numbers.formatDecimal(product.price,0,0)}" required name="price" class="form-control" id="price">
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea th:text="${product.description}" required name="description" class="form-control" rows="5"
+                      id="description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="group">Select list:</label>
+            <select name="group" required class="form-control" id="group">
+                <th:block th:each="g : ${groups}">
+                    <option th:selected="${g.groupId.equals(product.group.groupId)}" th:text="${g.groupName}"
+                            th:value="${g.groupId}"></option>
+                </th:block>
+            </select>
+        </div>
+        <p class="warning" id="update-status"/>
+    </form>
+    <button onclick="update()" type="button" class="btn btn-success">Cập nhật</button>
+</div>
+
+</body>
+
+<script type="text/javascript">
+    function update() {
+        if ($('form')[0].checkValidity()) {
+            var data = $("#update").serialize();
+            $.ajax({
+                url: "/product/update",
+                type: "post",
+                dataType: "text",
+                data: data,
+                success: function (result) {
+                    if (result) {
+                        $('#update-status').text(result);
+                    }
+                },
+                error: function (e) {
+                    $('#update-status').text(e);
+                }
+            });
+        } else {
+            $('#edit-status').text("Bạn cần phải nhập đầy đủ các trường");
+        }
+    }
+</script>
+</html>

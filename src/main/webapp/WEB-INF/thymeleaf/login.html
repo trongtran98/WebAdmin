@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<h2>Đăng nhập</h2>
+<div style="margin-top: 3%;" class="container">
+    <form action="/user/login" method="post">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input required name="username" class="form-control" id="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input name="password" required type="password" class="form-control" id="password">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+        <p class="warning" th:text="${login_error}"/>
+    </form>
+</div>
+</body>
+</html>
